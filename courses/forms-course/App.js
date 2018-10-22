@@ -9,29 +9,16 @@ import {
 import { createStackNavigator } from "react-navigation";
 import get from "lodash/get";
 
-import Lesson1 from "./lessons/Lesson1";
-import Lesson2 from "./lessons/Lesson2";
-import Lesson3 from "./lessons/Lesson3";
+import Validation from "./lessons/Validation";
 
-const initialRouteName = "Index";
+// const initialRouteName = "Index";
+const initialRouteName = "Validation";
 
 export const routeConfig = {
-  Lesson1: {
-    screen: Lesson1,
+  Validation: {
+    screen: Validation,
     navigationOptions: {
-      title: "Lesson 1"
-    }
-  },
-  Lesson2: {
-    screen: Lesson2,
-    navigationOptions: {
-      title: "Lesson 2"
-    }
-  },
-  Lesson3: {
-    screen: Lesson3,
-    navigationOptions: {
-      title: "Lesson 3"
+      title: "Validation"
     }
   }
 };
