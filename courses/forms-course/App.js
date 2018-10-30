@@ -10,22 +10,15 @@ import { createStackNavigator } from "react-navigation";
 import get from "lodash/get";
 
 import Validation from "./lessons/Validation";
-import Transitions from "./lessons/Transitions";
 
 // const initialRouteName = "Index";
-const initialRouteName = "Transitions";
+const initialRouteName = "Validation";
 
 export const routeConfig = {
   Validation: {
     screen: Validation,
     navigationOptions: {
       title: "Validation"
-    }
-  },
-  Transitions: {
-    screen: Transitions,
-    navigationOptions: {
-      title: "Transitions"
     }
   }
 };
