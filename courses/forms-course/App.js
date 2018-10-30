@@ -9,16 +9,16 @@ import {
 import { createStackNavigator } from "react-navigation";
 import get from "lodash/get";
 
-import Validation from "./lessons/Validation";
+import LoginReference from "./lessons/LoginReference";
 
 // const initialRouteName = "Index";
-const initialRouteName = "Validation";
+const initialRouteName = "LoginReference";
 
 export const routeConfig = {
-  Validation: {
-    screen: Validation,
+  LoginReference: {
+    screen: LoginReference,
     navigationOptions: {
-      title: "Validation"
+      title: "Login Reference"
     }
   }
 };
