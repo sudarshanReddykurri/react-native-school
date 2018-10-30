@@ -2,7 +2,7 @@ import React from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
-import { login } from "../api/auth";
+import { register } from "../api/auth";
 import { TextInput } from "../components/Form";
 import { Button } from "../components/Button";
 import { AuthFormWrapper } from "../components/AuthFormWrapper";
@@ -32,7 +32,7 @@ class Lesson extends React.Component {
     setFieldTouched("email", false);
     setFieldTouched("password", false);
     setFieldTouched("confirmPassword", false);
-    login(values.email, values.password)
+    register(values.email, values.password)
       .then(() => {
         setSubmitting(false);
         alert("Success! Welcome to the club.");
@@ -71,7 +71,7 @@ class Lesson extends React.Component {
             props,
             errors.general && "error"
           )}
-          validationText={getValidationText("password", props, errors.general)}
+          validationText={getValidationText("password", props)}
           onChangeText={handleChange("password")}
           onBlur={handleBlur("password")}
           autoCapitalize="none"
