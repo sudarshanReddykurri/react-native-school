@@ -3,6 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
+import { login } from "../api/auth";
 import { H1, H2 } from "../components/Text";
 import { TextInput } from "../components/Form";
 import { Button } from "../components/Button";
@@ -54,14 +55,57 @@ const getValidationText = (field, { touched, errors }, message) => {
 };
 
 class Lesson extends React.Component {
-  handleSubmit = (values, { setSubmitting, setErrors }) => {
-    setTimeout(() => {
-      setSubmitting(false);
+  handleSubmit = (values, { setSubmitting, setErrors, setFieldTouched }) => {
+    setFieldTouched("email", false);
+    setFieldTouched("password", false);
+    login(values.email, values.password)
+      .then(() => {
+        setSubmitting(false);
+        alert("Success! Welcome to the club.");
+      })
+      .catch(error => {
+        setSubmitting(false);
+        setErrors({ general: error.message });
+      });
+  };
 
-      if (Math.random() >= 0.5) {
-        setErrors({ general: "Your password doesn't match your email" });
-      }
-    }, 1000);
+  renderFields = props => {
+    const {
+      handleChange,
+      handleSubmit,
+      handleBlur,
+      isSubmitting,
+      errors
+    } = props;
+    return (
+      <React.Fragment>
+        <TextInput
+          label="Email"
+          validationType={getValidationType("email", props)}
+          validationText={getValidationText("email", props)}
+          onChangeText={handleChange("email")}
+          onBlur={handleBlur("email")}
+          autoCapitalize="none"
+          autoCorrect={false}
+          keyboardType="email-address"
+        />
+        <TextInput
+          label="Password"
+          secureTextEntry
+          validationType={getValidationType(
+            "password",
+            props,
+            errors.general && "error"
+          )}
+          validationText={getValidationText("password", props, errors.general)}
+          onChangeText={handleChange("password")}
+          onBlur={handleBlur("password")}
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
+        <Button onPress={handleSubmit} text="Login" disabled={isSubmitting} />
+      </React.Fragment>
+    );
   };
 
   render() {
@@ -74,54 +118,8 @@ class Lesson extends React.Component {
             initialValues={initialFormValues}
             validationSchema={SignInSchema}
             onSubmit={this.handleSubmit}
-          >
-            {props => {
-              const {
-                handleChange,
-                handleSubmit,
-                handleBlur,
-                isSubmitting,
-                errors
-              } = props;
-              return (
-                <React.Fragment>
-                  <TextInput
-                    label="Email"
-                    validationType={getValidationType("email", props)}
-                    validationText={getValidationText("email", props)}
-                    onChangeText={handleChange("email")}
-                    onBlur={handleBlur("email")}
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    keyboardType="email-address"
-                  />
-                  <TextInput
-                    label="Password"
-                    secureTextEntry
-                    validationType={getValidationType(
-                      "password",
-                      props,
-                      errors.general && "error"
-                    )}
-                    validationText={getValidationText(
-                      "password",
-                      props,
-                      errors.general
-                    )}
-                    onChangeText={handleChange("password")}
-                    onBlur={handleBlur("password")}
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                  />
-                  <Button
-                    onPress={handleSubmit}
-                    text="Login"
-                    disabled={isSubmitting}
-                  />
-                </React.Fragment>
-              );
-            }}
-          </Formik>
+            render={this.renderFields}
+          />
         </View>
       </View>
     );
