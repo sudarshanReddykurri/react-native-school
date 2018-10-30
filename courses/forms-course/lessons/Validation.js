@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { login } from "../api/auth";
 import { H1, H2 } from "../components/Text";
@@ -110,18 +111,20 @@ class Lesson extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.card}>
-          <H1>Hello!</H1>
-          <H2>Welcome back. Please enter your login details.</H2>
-          <Formik
-            initialValues={initialFormValues}
-            validationSchema={SignInSchema}
-            onSubmit={this.handleSubmit}
-            render={this.renderFields}
-          />
+      <KeyboardAwareScrollView>
+        <View style={styles.container}>
+          <View style={styles.card}>
+            <H1>Hello!</H1>
+            <H2>Welcome back. Please enter your login details.</H2>
+            <Formik
+              initialValues={initialFormValues}
+              validationSchema={SignInSchema}
+              onSubmit={this.handleSubmit}
+              render={this.renderFields}
+            />
+          </View>
         </View>
-      </View>
+      </KeyboardAwareScrollView>
     );
   }
 }
