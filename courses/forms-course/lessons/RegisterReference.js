@@ -6,23 +6,32 @@ import { login } from "../api/auth";
 import { TextInput } from "../components/Form";
 import { Button } from "../components/Button";
 import { AuthFormWrapper } from "../components/AuthFormWrapper";
+
 import {
   getValidationType,
   getValidationText,
   validationSchemaDefaults
 } from "../util/forms";
 
-const initialFormValues = { email: "", password: "" };
+const initialFormValues = { email: "", password: "", confirmPassword: "" };
 
 const FormSchema = Yup.object().shape({
   email: validationSchemaDefaults.email,
-  password: validationSchemaDefaults.password
+  password: validationSchemaDefaults.password,
+  confirmPassword: validationSchemaDefaults.password.test(
+    "password-match",
+    "Passwords do not match",
+    function(value) {
+      return this.parent.password === value;
+    }
+  )
 });
 
 class Lesson extends React.Component {
   handleSubmit = (values, { setSubmitting, setErrors, setFieldTouched }) => {
     setFieldTouched("email", false);
     setFieldTouched("password", false);
+    setFieldTouched("confirmPassword", false);
     login(values.email, values.password)
       .then(() => {
         setSubmitting(false);
@@ -68,6 +77,24 @@ class Lesson extends React.Component {
           autoCapitalize="none"
           autoCorrect={false}
         />
+        <TextInput
+          label="Confirm Password"
+          secureTextEntry
+          validationType={getValidationType(
+            "confirmPassword",
+            props,
+            errors.general && "error"
+          )}
+          validationText={getValidationText(
+            "confirmPassword",
+            props,
+            errors.general
+          )}
+          onChangeText={handleChange("confirmPassword")}
+          onBlur={handleBlur("confirmPassword")}
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
         <Button onPress={handleSubmit} text="Login" disabled={isSubmitting} />
       </React.Fragment>
     );
@@ -76,8 +103,8 @@ class Lesson extends React.Component {
   render() {
     return (
       <AuthFormWrapper
-        header="Hello!"
-        subHeader="Welcome back. Please enter your login details."
+        header="Welcome!"
+        subHeader="Thanks for joining us. We just need a few details to get started."
       >
         <Formik
           initialValues={initialFormValues}

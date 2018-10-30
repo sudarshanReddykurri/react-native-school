@@ -10,15 +10,23 @@ import { createStackNavigator } from "react-navigation";
 import get from "lodash/get";
 
 import LoginReference from "./lessons/LoginReference";
+import RegisterReference from "./lessons/RegisterReference";
 
 // const initialRouteName = "Index";
-const initialRouteName = "LoginReference";
+// const initialRouteName = "LoginReference";
+const initialRouteName = "RegisterReference";
 
 export const routeConfig = {
   LoginReference: {
     screen: LoginReference,
     navigationOptions: {
       title: "Login Reference"
+    }
+  },
+  RegisterReference: {
+    screen: RegisterReference,
+    navigationOptions: {
+      title: "Register Reference"
     }
   }
 };
