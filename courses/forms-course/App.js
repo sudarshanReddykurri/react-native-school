@@ -12,6 +12,8 @@ import get from "lodash/get";
 import LoginReference from "./lessons/LoginReference";
 import RegisterReference from "./lessons/RegisterReference";
 
+import { SelectList } from "./components/Form";
+
 // const initialRouteName = "Index";
 // const initialRouteName = "LoginReference";
 const initialRouteName = "RegisterReference";
@@ -28,6 +30,12 @@ export const routeConfig = {
     navigationOptions: {
       title: "Register Reference"
     }
+  },
+  SelectList: {
+    screen: SelectList,
+    navigationOptions: ({ navigation }) => ({
+      headerTitle: navigation.getParam("title", "Select")
+    })
   }
 };
 

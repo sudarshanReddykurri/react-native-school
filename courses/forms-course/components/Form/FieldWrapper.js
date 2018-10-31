@@ -1,33 +1,6 @@
 import React from "react";
-import { View, Text, StyleSheet, Animated } from "react-native";
-import colors from "../../config/colors";
-
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 10,
-    marginTop: 0
-  },
-  labelText: {
-    color: colors.subtle,
-    fontSize: 18
-  },
-  border: {
-    borderBottomColor: colors.subtle,
-    borderBottomWidth: 1
-  },
-  validationContainer: {
-    minHeight: 25,
-    marginTop: 5
-  },
-  errorMessage: {
-    color: "#ba5361",
-    fontWeight: "500"
-  },
-  successMessage: {
-    color: "#4bc350",
-    fontWeight: "500"
-  }
-});
+import { View, Text, Animated } from "react-native";
+import styles from "./styles";
 
 const getValidationStyle = (type, animatedValue) => {
   const s = [];

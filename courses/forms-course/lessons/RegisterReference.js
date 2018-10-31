@@ -3,17 +3,22 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 
 import { register } from "../api/auth";
-import { TextInput } from "../components/Form";
+import { TextInput, Select } from "../components/Form";
 import { Button } from "../components/Button";
 import { AuthFormWrapper } from "../components/AuthFormWrapper";
-
 import {
   getValidationType,
   getValidationText,
   validationSchemaDefaults
 } from "../util/forms";
 
-const initialFormValues = { email: "", password: "", confirmPassword: "" };
+const initialFormValues = {
+  email: "",
+  password: "",
+  confirmPassword: "",
+  experienceLevel: "",
+  interests: []
+};
 
 const FormSchema = Yup.object().shape({
   email: validationSchemaDefaults.email,
@@ -24,6 +29,11 @@ const FormSchema = Yup.object().shape({
     function(value) {
       return this.parent.password === value;
     }
+  ),
+  experienceLevel: validationSchemaDefaults.requiredString,
+  interests: validationSchemaDefaults.arrayOfStrings.min(
+    1,
+    "Please choose at least one interest."
   )
 });
 
@@ -43,20 +53,21 @@ class Lesson extends React.Component {
       });
   };
 
-  renderFields = props => {
+  renderFields = formData => {
     const {
       handleChange,
       handleSubmit,
       handleBlur,
       isSubmitting,
-      errors
-    } = props;
+      errors,
+      values
+    } = formData;
     return (
       <React.Fragment>
         <TextInput
           label="Email"
-          validationType={getValidationType("email", props)}
-          validationText={getValidationText("email", props)}
+          validationType={getValidationType("email", formData)}
+          validationText={getValidationText("email", formData)}
           onChangeText={handleChange("email")}
           onBlur={handleBlur("email")}
           autoCapitalize="none"
@@ -68,10 +79,10 @@ class Lesson extends React.Component {
           secureTextEntry
           validationType={getValidationType(
             "password",
-            props,
+            formData,
             errors.general && "error"
           )}
-          validationText={getValidationText("password", props)}
+          validationText={getValidationText("password", formData)}
           onChangeText={handleChange("password")}
           onBlur={handleBlur("password")}
           autoCapitalize="none"
@@ -82,18 +93,62 @@ class Lesson extends React.Component {
           secureTextEntry
           validationType={getValidationType(
             "confirmPassword",
-            props,
+            formData,
             errors.general && "error"
           )}
-          validationText={getValidationText(
-            "confirmPassword",
-            props,
-            errors.general
-          )}
+          validationText={getValidationText("confirmPassword", formData)}
           onChangeText={handleChange("confirmPassword")}
           onBlur={handleBlur("confirmPassword")}
           autoCapitalize="none"
           autoCorrect={false}
+        />
+        <Select
+          label="Experience Level"
+          validationType={getValidationType(
+            "experienceLevel",
+            formData,
+            errors.general && "error"
+          )}
+          validationText={getValidationText("experienceLevel", formData)}
+          value={values.experienceLevel}
+          onPress={() => {
+            this.props.navigation.navigate("SelectList", {
+              options: ["Beginner", "Intermediate", "Advanced"],
+              selected: [values.experienceLevel],
+              onSelect: () => alert("selected things!"),
+              multi: false,
+              title: "Experience Level"
+            });
+          }}
+        />
+        <Select
+          label="Interests"
+          validationType={getValidationType(
+            "interests",
+            formData,
+            errors.general && "error"
+          )}
+          validationText={getValidationText(
+            "interests",
+            formData,
+            errors.general
+          )}
+          value={values.interests}
+          onPress={() => {
+            this.props.navigation.navigate("SelectList", {
+              options: [
+                "React",
+                "React Native",
+                "Native iOS Development",
+                "Native Android Development",
+                "Hybrid App Development"
+              ],
+              selected: [values.interests],
+              onSelect: () => alert("selected things!"),
+              multi: true,
+              title: "Interests"
+            });
+          }}
         />
         <Button onPress={handleSubmit} text="Login" disabled={isSubmitting} />
       </React.Fragment>

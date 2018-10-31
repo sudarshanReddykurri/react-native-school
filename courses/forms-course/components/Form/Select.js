@@ -1,6 +1,7 @@
 import React from "react";
-import { TextInput } from "react-native";
+import { Text, TouchableOpacity, Image } from "react-native";
 import FieldWrapper from "./FieldWrapper";
+
 import styles from "./styles";
 
 class Input extends React.Component {
@@ -10,6 +11,8 @@ class Input extends React.Component {
       style,
       validationType,
       validationText,
+      value,
+      onPress,
       ...rest
     } = this.props;
     return (
@@ -18,7 +21,16 @@ class Input extends React.Component {
         validationType={validationType}
         validationText={validationText}
       >
-        <TextInput {...rest} style={[styles.input, style]} />
+        <TouchableOpacity onPress={onPress} style={styles.row}>
+          <Text {...rest} style={[styles.input, style]}>
+            {value}
+          </Text>
+          <Image
+            source={require("../../assets/chevron.png")}
+            resizeMode="contain"
+            style={styles.icon}
+          />
+        </TouchableOpacity>
       </FieldWrapper>
     );
   }

@@ -27,5 +27,7 @@ export const validationSchemaDefaults = {
   password: Yup.string()
     .required("Need this one too.")
     .min(2, "Seems a bit short...")
-    .max(10, "Ah, a password manager user. You're breaking my example.")
+    .max(10, "Ah, a password manager user. You're breaking my example."),
+  requiredString: Yup.string().required("This is required."),
+  arrayOfStrings: Yup.array().of(Yup.string())
 };
