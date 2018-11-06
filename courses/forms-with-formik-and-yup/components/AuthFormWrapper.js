@@ -7,7 +7,7 @@ import { H1, H2 } from "./Text";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 60
+    paddingVertical: 60
   },
   card: {
     backgroundColor: "#fff",

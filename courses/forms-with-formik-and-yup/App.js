@@ -14,9 +14,9 @@ import RegisterReference from "./lessons/RegisterReference";
 
 import { SelectList } from "./components/Form";
 
-// const initialRouteName = "Index";
+const initialRouteName = "Index";
 // const initialRouteName = "LoginReference";
-const initialRouteName = "RegisterReference";
+// const initialRouteName = "RegisterReference";
 
 export const routeConfig = {
   LoginReference: {
@@ -42,7 +42,10 @@ export const routeConfig = {
 const styles = StyleSheet.create({
   scrollview: {
     backgroundColor: "#fff",
-    marginVertical: 20
+    marginVertical: 20,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderColor: "#ddd"
   },
   itemContainer: {
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -54,7 +57,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    fontWeight: "bold",
     color: "#444"
   }
 });
