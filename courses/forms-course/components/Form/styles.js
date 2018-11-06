@@ -41,7 +41,7 @@ export default StyleSheet.create({
   icon: {
     height: 18,
     marginVertical: 10,
-    tintColor: colors.primary
+    tintColor: colors.subtle
   },
   selectRow: {
     backgroundColor: "#fff",
@@ -54,9 +54,12 @@ export default StyleSheet.create({
   },
   selectListContainer: {
     marginTop: 20,
-    flex: 1,
     borderColor: colors.subtle,
     borderBottomWidth: 1,
     borderTopWidth: 1
+  },
+  buttonWrapper: {
+    marginHorizontal: 20,
+    marginVertical: 20
   }
 });

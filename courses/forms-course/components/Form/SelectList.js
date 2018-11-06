@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, FlatList, View, TouchableOpacity, Image } from "react-native";
 import styles from "./styles";
+import { Button } from "../Button";
 
 class SelectList extends React.Component {
   constructor(props) {
@@ -38,15 +39,25 @@ class SelectList extends React.Component {
     );
   };
 
+  handleSave = () => {
+    const { navigation } = this.props;
+    const onSelect = navigation.getParam("onSelect", () => {});
+
+    onSelect(this.state.selected);
+    navigation.goBack();
+  };
+
   render() {
     const { navigation } = this.props;
 
+    const multi = navigation.getParam("multi", false);
     const options = navigation.getParam("options", []);
 
     return (
-      <View style={styles.selectListContainer}>
+      <View>
         <FlatList
           data={options}
+          contentContainerStyle={styles.selectListContainer}
           renderItem={({ item }) => {
             const isSelected = this.state.selected.includes(item);
             return (
@@ -70,6 +81,11 @@ class SelectList extends React.Component {
           keyExtractor={item => item}
           ItemSeparatorComponent={() => <View style={styles.border} />}
         />
+        {multi && (
+          <View style={styles.buttonWrapper}>
+            <Button text="Save" onPress={this.handleSave} />
+          </View>
+        )}
       </View>
     );
   }

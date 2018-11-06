@@ -38,10 +38,38 @@ const FormSchema = Yup.object().shape({
 });
 
 class Lesson extends React.Component {
+  handleExperiencePress = ({ values, setFieldValue }) => {
+    this.props.navigation.navigate("SelectList", {
+      options: ["Beginner", "Intermediate", "Advanced"],
+      selected: [values.experienceLevel],
+      onSelect: selection => setFieldValue("experienceLevel", selection),
+      multi: false,
+      title: "Experience Level"
+    });
+  };
+
+  handleInterestPress = ({ values, setFieldValue }) => {
+    this.props.navigation.navigate("SelectList", {
+      options: [
+        "React",
+        "React Native",
+        "Native iOS Development",
+        "Native Android Development",
+        "Hybrid App Development"
+      ],
+      selected: values.interests,
+      onSelect: selection => setFieldValue("interests", selection),
+      multi: true,
+      title: "Interests"
+    });
+  };
+
   handleSubmit = (values, { setSubmitting, setErrors, setFieldTouched }) => {
     setFieldTouched("email", false);
     setFieldTouched("password", false);
     setFieldTouched("confirmPassword", false);
+    setFieldTouched("experienceLevel", false);
+    setFieldTouched("interests", false);
     register(values.email, values.password)
       .then(() => {
         setSubmitting(false);
@@ -77,11 +105,7 @@ class Lesson extends React.Component {
         <TextInput
           label="Password"
           secureTextEntry
-          validationType={getValidationType(
-            "password",
-            formData,
-            errors.general && "error"
-          )}
+          validationType={getValidationType("password", formData)}
           validationText={getValidationText("password", formData)}
           onChangeText={handleChange("password")}
           onBlur={handleBlur("password")}
@@ -91,11 +115,7 @@ class Lesson extends React.Component {
         <TextInput
           label="Confirm Password"
           secureTextEntry
-          validationType={getValidationType(
-            "confirmPassword",
-            formData,
-            errors.general && "error"
-          )}
+          validationType={getValidationType("confirmPassword", formData)}
           validationText={getValidationText("confirmPassword", formData)}
           onChangeText={handleChange("confirmPassword")}
           onBlur={handleBlur("confirmPassword")}
@@ -104,22 +124,10 @@ class Lesson extends React.Component {
         />
         <Select
           label="Experience Level"
-          validationType={getValidationType(
-            "experienceLevel",
-            formData,
-            errors.general && "error"
-          )}
+          validationType={getValidationType("experienceLevel", formData)}
           validationText={getValidationText("experienceLevel", formData)}
           value={values.experienceLevel}
-          onPress={() => {
-            this.props.navigation.navigate("SelectList", {
-              options: ["Beginner", "Intermediate", "Advanced"],
-              selected: [values.experienceLevel],
-              onSelect: () => alert("selected things!"),
-              multi: false,
-              title: "Experience Level"
-            });
-          }}
+          onPress={() => this.handleExperiencePress(formData)}
         />
         <Select
           label="Interests"
@@ -133,22 +141,8 @@ class Lesson extends React.Component {
             formData,
             errors.general
           )}
-          value={values.interests}
-          onPress={() => {
-            this.props.navigation.navigate("SelectList", {
-              options: [
-                "React",
-                "React Native",
-                "Native iOS Development",
-                "Native Android Development",
-                "Hybrid App Development"
-              ],
-              selected: [values.interests],
-              onSelect: () => alert("selected things!"),
-              multi: true,
-              title: "Interests"
-            });
-          }}
+          value={values.interests.join(", ")}
+          onPress={() => this.handleInterestPress(formData)}
         />
         <Button onPress={handleSubmit} text="Login" disabled={isSubmitting} />
       </React.Fragment>
